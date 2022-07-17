@@ -1,0 +1,55 @@
+POST http://localhost:8888/api/auth/register
+content-type: application/json
+Accept: application/json
+
+{
+    "name": "Quan",
+    "email": "quangquan4179@gmail.com",
+    "password": "adeqeqeqeqe"
+}
+
+###
+
+GET  http://localhost:8888/api/healthy
+
+
+###
+
+POST http://localhost:8888/api/auth/login
+content-type: application/json
+Accept: application/json
+
+{
+    "email": "quangquan4179@gmail.com",
+    "password": "adeqeqeqeqe"
+}
+###
+POST http://localhost:8888/api/admin/register
+content-type: application/json
+Accept: application/json
+
+{
+    "name": "Quang Quan",
+    "email": "quangquan4179@gmail.com",
+    "password": "quan123"
+}
+
+###
+
+POST http://localhost:8888/api/admin/login
+content-type: application/json
+Accept: application/json
+
+{
+    "email": "quangquan4179@gmail.com",
+    "password": "quan123"
+}
+
+###
+
+
+
+# GET  http://localhost:8888/api/auth/me
+
+
+# ###

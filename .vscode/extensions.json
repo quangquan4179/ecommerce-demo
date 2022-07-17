@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "junstyle.php-cs-fixer",
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "mikestead.dotenv",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "ryannaddy.laravel-artisan"
+    ]
+}
