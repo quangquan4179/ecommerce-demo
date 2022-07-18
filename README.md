@@ -18,7 +18,7 @@ see name container by docker ps -a
 
 
 #backend 
-$docker exec -it <name container>
+$docker exec -it <name container> bash
 
 php aritisan migrate
 
