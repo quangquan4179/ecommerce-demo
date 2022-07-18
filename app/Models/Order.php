@@ -23,4 +23,7 @@ class Order extends Model
     public function product(){
         return $this->belongsTo(Product::class);
     }
+    public function transaction(){
+        return $this->belongsToMany(Transaction::class);
+    }
 }

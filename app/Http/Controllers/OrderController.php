@@ -30,7 +30,7 @@ class OrderController extends Controller
             ],401);
         }
 
-        $cart = Cart::where('user_id',$req->user_id)->first();
+        $cart = Cart::where('user_id',$req->user()->id)->first();
         if($cart){
             $cart->orders()->create([
                         "user_id"=>$req->user()->id,
@@ -42,7 +42,7 @@ class OrderController extends Controller
 
             return response()->json([
                 "status"=>true,
-                "message"=>'Order created Successfull',
+                "message"=>'Order created Successfull 1',
                 "cart"=>$cart
             ]);
         // }
@@ -62,7 +62,7 @@ class OrderController extends Controller
             ]);
             return response()->json([
                 "status"=>true,
-                "message"=>'Order created Successfull',
+                "message"=>'Order created Successfull 2',
                 "cart"=>$newCart
             ]);
 

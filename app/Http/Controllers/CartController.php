@@ -39,4 +39,14 @@ class CartController extends Controller
         ],200);
     }
     }
+
+    public function removeProduct(Request $req){
+        $cart = Cart::where('user_id',$req->user()->id)->first();
+        $cart->orders()->where('id', $req->id)->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Deleted Successfull'
+        ]);
+
+    }
 }

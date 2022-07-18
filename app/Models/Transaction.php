@@ -15,7 +15,7 @@ class Transaction extends Model
         'amount'
     ];
     public function orders(){
-        return $this->hasMany(Order::class);
+        return $this->belongsToMany(Order::class);
     }
     public function user(){
         return $this->belongsTo(User::class);

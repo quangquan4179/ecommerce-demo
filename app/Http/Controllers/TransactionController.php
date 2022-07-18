@@ -14,23 +14,29 @@ class TransactionController extends Controller
 
         try{
 
-        $transtion = Transaction::where('status',false)->where('user_id',$req->user()->id)->first();
-        $orders=$transtion->orders;
-        if($transtion){
+        $transactions = Transaction::all()->where('status',false)->where('user_id',$req->user()->id);
+        // return response()->json([
+        //     'status'=>true,
+        //     'transactions'=>$transtions
+        // ],200);
+        // $orders=$transtion->orders;
+        if($transactions){
 
-            foreach($orders as $order){
-                $order->product;
+            foreach($transactions as $transaction){
+                foreach($transaction->orders as $order){
+                    $order->product;
+                }
 
             }
             return response()->json([
                 'status'=>true,
-                'transactions'=>$transtion
+                'transactions'=>$transactions
             ],200);
         }
         else{
             return response()->json([
                 'status'=>true,
-                'transactions'=>$transtion
+                'transactions'=>[]
             ],200);
         }
     }catch(\Throwable $e){
@@ -54,8 +60,11 @@ class TransactionController extends Controller
             "amount"=>$req->amount,
 
         ]);
-        $transtion->orders=$orders;
-        $transtion->save();
+   
+        foreach($orders as $order){
+           $transtion->orders()->attach($order->id);
+        }
+
         return response()->json([
             'status'=>true,
             'transactions'=>$transtion

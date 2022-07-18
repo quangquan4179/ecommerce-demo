@@ -79,7 +79,7 @@ Route::prefix('transaction')->group(function () {
 Route::prefix('cart')->group(function () {
     Route::middleware('auth:sanctum')->group(function(){
       Route::get('orders', [CartController::class, 'getCart']);
-
+      Route::delete('{id}', [CartController::class, 'removeProduct']);
     }
 );
   
