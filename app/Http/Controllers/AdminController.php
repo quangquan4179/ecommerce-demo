@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,16 @@ class AdminController extends Controller
 
 
 {
+
+    public function response($admin){
+        $token  = $admin->createToken(str()->random(40))->plainTextToken;
+        return response()->json([
+            'admin'=>$admin,
+            'token'=>$token,
+            'token_type'=>'Bearer'
+        ]);
+
+    }
     public function register(Request $request)
     {
 
@@ -44,11 +55,8 @@ class AdminController extends Controller
             'password'=> Hash::make($request->password)
         ]);
 
-        return response()->json([
-            "status" => true,
-            "message"=>'Admin Created Successfully',
-            "token"=> $newAdmin->createToken('API ADMIN TOKEN')->plainTextToken
-        ],200);
+        return $this->response($newAdmin);
+       
 
     }
 
@@ -79,9 +87,19 @@ class AdminController extends Controller
             return response()->json([
                 'status'=>true,
                 'message'=>' Admin login Successfully',
-                'token'=> $admin->createToken("API ADMIN TOKEN")->plainTextToken
+                'token'=> $admin->createToken("API ADMIN TOKEN")->plainTextToken,
+                'admin'=>$admin
             ],200);
 
+
+    }
+    public function getAllUser(){
+        $users =User::all();
+        return response()->json([
+            'status'=>true,
+            
+            'admin'=>$users
+        ],200);
 
     }
 }

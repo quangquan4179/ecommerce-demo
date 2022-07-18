@@ -9,15 +9,16 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'transaction_id',
+        'cart_id',
         'product_id',
         'qty',
         'amount',
         'status',
 
     ];
-    public function transaction(){
-        return $this->belongsTo(Transaction::class);
+
+    public function cart(){
+        return $this->belongsTo(Cart::class);
     }
     public function product(){
         return $this->belongsTo(Product::class);

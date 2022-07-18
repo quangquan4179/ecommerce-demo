@@ -17,6 +17,16 @@ use Str;
 
 class AuthController extends Controller
 {
+
+    public function response($user){
+        $token  = $user->createToken(str()->random(40))->plainTextToken;
+        return response()->json([
+            'user'=>$user,
+            'token'=>$token,
+            'token_type'=>'Bearer'
+        ]);
+
+    }
     public function register(Request $request)
     {
 
@@ -48,11 +58,7 @@ class AuthController extends Controller
             'password'=> Hash::make($request->password)
         ]);
 
-        return response()->json([
-            "status" => true,
-            "message"=>'User Created Successfully',
-            "token"=> $user->createToken('API TOKEN')->plainTextToken
-        ],200);
+        return $this->response($user);
 
     }
 
@@ -79,40 +85,23 @@ class AuthController extends Controller
                 ],401);
             }
 
-            $user = User::where('email', $request->email)->first();
-            return response()->json([
-                'status'=>true,
-                'message'=>' User login Successfully',
-                'token'=> $user->createToken("API TOKEN")->plainTextToken
-            ],200);
+            $user = User::where('email', $request->email)->first();;
+
+            return $this->response(Auth::user());
 
 
     }
 
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->only('email', 'password');
 
-    //     if ($token = $this->guard()->attempt($credentials)) {
-    //         return $this->respondWithToken($token);
-    //     }
+    public function logout()
+    {
+        Auth::user()->tokens()->delete();
+        return response()->json([
+            'message'=>'You have successfully logged out  and token was successfull deleted'
+        ]);
 
-    //     return ApiResponse::withStatusCode(401)
-    //         ->withMessage(_(_'auth.failed'))
-    //         ->makeResponse();
-    // }
-
-    // public function me()
-    // {
-    //     return response()->json($this->guard()->user());
-    // }
-
-    // public function logout()
-    // {
-    //     $this->guard()->logout();
-
-    //     return ApiResponse::makeResponse();
-    // }
+        
+    }
 
     // public function refresh()
     // {

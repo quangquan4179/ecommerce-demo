@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Resources\Catalog;
+use App\Models\Cart;
 use App\Models\Catalog as ModelsCatalog;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,7 +43,13 @@ Route::prefix('auth')->group(function () {
     //     Route::post('refresh', [AuthController::class, 'refresh']);
     //     Route::get('me', [AuthController::class, 'me']);
     // });
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::get('user',function( Request $request){
+            return $request->user();
+        });
+        Route::post('logout',[AuthController::class,'logout']);
 
+    });
 
 
 });
@@ -49,18 +58,31 @@ Route::prefix('product')->group(function () {
     Route::post('create', [ProductController::class, 'createProduct']);
     Route::get('{id}', [ProductController::class, 'getProductsById']);
     Route::delete('{id}', [ProductController::class,'deleteProduct']);
-    
-
 });
 Route::prefix('order')->group(function () {
-  
+    Route::middleware('auth:sanctum')->group(function(){
+
     Route::post('create', [OrderController::class, 'createOrder']);
+    });
 });
 
 
 Route::prefix('transaction')->group(function () {
+    Route::middleware('auth:sanctum')->group(function(){
+      Route::get('current', [TransactionController::class, 'getTransaction']);
+      Route::post('create', [TransactionController::class, 'createTransaction']);
+
+    });
+}
+    
+);
+Route::prefix('cart')->group(function () {
+    Route::middleware('auth:sanctum')->group(function(){
+      Route::get('orders', [CartController::class, 'getCart']);
+
+    }
+);
   
-    Route::get('user_id/{id}', [TransactionController::class, 'getTransaction']);
 });
 Route::prefix('catalog')->group(function(){
     Route::get('all',[CatalogController::class,'getAllProducts']);
@@ -73,6 +95,7 @@ Route::prefix('catalog')->group(function(){
 Route::prefix('admin')->group(function () {
     Route::post('register', [AdminController::class, 'register']);
     Route::post('login', [AdminController::class, 'login']);
+    Route::get('users',[AdminController::class,'getAllUser']);
 });
 
 Route::get('healthy', function () {
