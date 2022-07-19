@@ -96,6 +96,7 @@ Route::prefix('admin')->group(function () {
     Route::post('register', [AdminController::class, 'register']);
     Route::post('login', [AdminController::class, 'login']);
     Route::get('users',[AdminController::class,'getAllUser']);
+    Route::get('{id}',[AdminController::class,'getAdmin']);
 });
 
 Route::get('healthy', function () {

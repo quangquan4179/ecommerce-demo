@@ -65,7 +65,7 @@ class ProductController extends Controller
             return ["image"=>$image];
         });
 
-            $product =Product::create([
+        $product =Product::create([
             'product_name'=>$request->product_name,
             'brand'=>$request->brand,
             'price'=>$request->price,
@@ -73,7 +73,8 @@ class ProductController extends Controller
             'image'=>$url,
             'amount'=>$request->amount,
             'catalog_id'=>$catalog->id
-        ])->images()->createMany($images);
+        ]);
+        $product->images()->createMany($images);
 
 
         return response()->json([

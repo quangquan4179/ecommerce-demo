@@ -93,12 +93,24 @@ class AdminController extends Controller
 
 
     }
+    public function getAdmin(Request $request){
+
+        $admin = Admin::where('id',$request->id)->first();
+        return response()->json([
+            'status'=>true,
+            'message'=>' Admin login Successfully',
+            'token'=> $admin->createToken("API ADMIN TOKEN")->plainTextToken,
+            'admin'=>$admin
+        ],200);
+        
+
+    }
     public function getAllUser(){
         $users =User::all();
         return response()->json([
             'status'=>true,
             
-            'admin'=>$users
+            'users'=>$users
         ],200);
 
     }
